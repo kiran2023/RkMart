@@ -65,7 +65,7 @@ export class AdminProductsService {
   }
 
   categoryTypesCount() {
-    return this.http.get<any>(`${this.getCategoryTypesUrl}`);
+    return this.http.get<any>(`${this.getCategoryUrl}`);
   }
 
   addCategory(categoryData: any) {
@@ -105,7 +105,7 @@ export class AdminProductsService {
   }
 
   updateProductData(product: product, productID: string | undefined | null) {
-    return this.http.put<product>(`${this.getProductDataUrl}/${productID}`, product);
+    return this.http.patch<product>(`${this.getProductDataUrl}/${productID}`, product);
   }
 
   removerUser(user: any) {
@@ -151,17 +151,13 @@ export class AdminProductsService {
           categoryDataObject["categoryUniqueValue"].splice(categoryDataObject["categoryUniqueValue"].indexOf(categoryValue), 1);
         }
 
-        if (categoryData.category.length !== 0) {
-          console.warn("entry length");
-          
+        if (categoryData.category.length !== 0) {          
           this.removeCategory(categoryId, categoryDataObject).subscribe((response) => {
             response ? alert("Category Remove Successfully") : alert("Error While Removing Category");
             window.location.reload();
           })
         }
         if (categoryData.category.length == 0) {
-          console.warn("entry length 0");
-
           this.removeCategoryTypes(categoryId).subscribe();
           this.http.delete(`http://localhost:3000/category/${categoryId}`).subscribe();
           window.location.reload();

@@ -1,7 +1,7 @@
 <div class="grid grid-two-columns">
     <app-navbar></app-navbar>
 
-    <div class="container">
+    <div class="container" *ngIf="paymentInfo.length!=0">
         <section>
             <div id="ordersDashboard">
                 <h2 class="common-heading">Payments</h2>
@@ -24,4 +24,10 @@
             </div>
         </section>
     </div>
+    <div id="paymentBox" *ngIf="paymentInfo.length==0">
+        <p> <mark id="markData"> No Payments Have Done Yet </mark> </p>
+    </div>
 </div>
+
+
+

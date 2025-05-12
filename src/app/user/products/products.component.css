@@ -1,26 +1,144 @@
-.scrollToTop{
-    position: fixed;
-    right: 2%;
-    bottom: 5%;
-    z-index: 1;
+.scrollToTop {
+  position: fixed;
+  right: 2%;
+  bottom: 5%;
+  z-index: 1;
+}
+
+.scrollBtn {
+  width: 3rem;
+  height: 3rem;
+  font-size: 1.2rem;
+  background-color: var(--btns-background);
+  color: var(--white);
+  padding: 1rem;
+  border-radius: 40%;
+  cursor: pointer;
+  animation: animateScroll 3s linear infinite;
+}
+
+.scrollActive {
+  display: none;
+}
+
+.grid-section {
+  margin-bottom: 4rem;
+}
+
+#noProductFound {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+
+#noProductFound img {
+  height: 80%;
+  border: solid 0.2rem var(--btns-background);
+}
+
+.grid-two-section {
+  display: grid;
+  grid-template-columns: 18% 82%;
+}
+
+
+@media screen and (max-width:1060px) {
+  .grid-four-columns {
+    margin-left: 2rem;
+    grid-template-columns: repeat(3, 1fr);
   }
-  
-  .scrollBtn{
-     width: 3rem;
-     height: 3rem;
-     font-size: 1.2rem;
-     background-color: var(--btns-background);
-     color: var(--white);
-     padding: 1rem;
-     border-radius: 40%;
-     cursor: pointer;
-     animation: animateScroll 3s linear infinite;
+}
+
+@media screen and (max-width:840px) {
+  .productImage img {
+    height: 3rem;
   }
-  
-  .scrollActive{
+
+  .figCaptionDiv,
+  .rating,
+  .productDetails,
+  .productPrice,
+  .amountDiv,
+  .productPrice .ratings,
+  .ratings span, .offerBtn {
+    font-size: 0.8rem;
+  }
+
+  .btnD{
+    padding: 0.3rem;
+    font-size: 0.5rem;
+  }
+
+  .price-box{
+    padding: 0.1rem;
+  }
+
+  .productBox {
+    height: 15rem;
+  }
+
+  #categoryData {
     display: none;
   }
 
-  .grid-section{
-    margin-bottom: 4rem;
+  .grid-two-section {
+    grid-template-columns: 1fr;
   }
+
+  .grid-four-columns {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .searchBox {
+    padding-top: 2rem;
+  }
+}
+
+@media screen and (max-width:720px) {
+  .grid-four-columns {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (max-width:540px) {
+  .figCaptionDiv,
+  .rating,
+  .productDetails,
+  .productPrice,
+  .amountDiv,
+  .productPrice .ratings,
+  .ratings span {
+    font-size: 0.6rem;
+  }
+
+  .figCaptionDiv {
+    min-height: 2rem;
+  }
+
+  .addWishlistDiv .btnD {
+    padding: 0.2rem;
+    border-radius: 0.3rem;
+    font-size: 0.5rem;
+  }
+
+  .productBox {
+    height: 12rem;
+  }
+
+  .productBox {
+    padding: 1rem;
+  }
+
+  .searchBox input {
+    padding: 0.4rem;
+    margin-right: 1rem;
+    width: 8rem;
+  }
+}
+
+@media screen and (max-width:420px) {
+  .grid-four-columns {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

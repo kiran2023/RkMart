@@ -43,8 +43,10 @@
           <div class="form_fields">
             <label>Pincode</label>
             <input type="tel" pattern="^[0-9]*$" name="mobile" minlength="6" maxlength="6" placeholder="Pincode" formControlName="customerPincode" >
-            <p id="errorMessage" *ngIf="shippingForm.controls['customerPincode'].errors?.['minlength']">Please Enter Valid Pincode </p>
-            <p id="errorMessage" *ngIf="shippingForm.controls['customerPincode'].errors?.['pattern']">Please Enter Only Numbers </p>
+            <div class="errorBox">
+              <p id="errorMessageBox" *ngIf="shippingForm.controls['customerPincode'].errors?.['minlength']">Please Enter Valid Pincode </p>
+              <p id="errorMessageBox" *ngIf="shippingForm.controls['customerPincode'].errors?.['pattern']">Please Enter Only Numbers </p>
+            </div>
           </div>
 
         </div>

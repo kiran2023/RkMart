@@ -1,35 +1,44 @@
 <!-- ----------------------------Navigation Menu------------------------------- -->
 
-<div class="menuBox menu">
+<div class="menuBox grid-menu-two">
     <div id="logo">
         <a routerLink="">
             <h2>RK <span> MART </span></h2>
         </a>
     </div>
-    <nav>
-        <ul>
-            <li routerLink="/home" [routerLinkActive]="'active'" [routerLinkActiveOptions]="{exact:true}"> <a> <i
-                        class="fa-solid fa-house"></i>Home </a></li>
+    <div class="menu">
+        <nav>
+            <ul>
+                <li routerLink="/home" [routerLinkActive]="'active'" [routerLinkActiveOptions]="{exact:true}"> <a> <i
+                            class="fa-solid fa-house"></i>Home </a></li>
 
-            <li routerLink="/products" [routerLinkActive]="'active'"> <a> <i
-                        class="fa-solid fa-bag-shopping"></i>Products </a>
-            </li>
-            <li routerLink="/contactUs" [routerLinkActive]="'active'"> <a> <i
-                        class="fa-solid fa-address-book"></i>Contact </a> </li>
-            <button class="loginBtn" class="login" (click)="loginModal()" [hidden]="loggedin"> <i
-                    class="fa-solid fa-user"></i> Login
-            </button>
-            <div [hidden]="!loggedin" id="mainPageCart" class="cart" attr.current-count="{{cartDataCount}}">
-                <a routerLink="/cart"> <i class="fa-sharp fa-solid fa-cart-shopping"></i> </a>
-             </div>
-        </ul>
-    </nav>
-    <div [hidden]="!loggedin">
-        <div class="user">
-            <p id="user" title="{{loggedinUser}}"> <i class="fa-regular fa-circle-user"></i>
-                {{(loggedinUser?.username)||(loggedinUser)|uppercase}}</p>
-            <p id="user" title="Logout" (click)="logout()"><i class="fa-solid fa-right-from-bracket"></i></p>
+                <li routerLink="/products" [routerLinkActive]="'active'"> <a> <i
+                            class="fa-solid fa-bag-shopping"></i>Products </a>
+                </li>
+                <li routerLink="/contactUs" [routerLinkActive]="'active'"> <a> <i
+                            class="fa-solid fa-address-book"></i>Contact </a> </li>
+                <button class="loginBtn" class="login" (click)="loginModal()" [hidden]="loggedin"> <i
+                        class="fa-solid fa-user"></i> Login
+                </button>
+                <div routerLink="/cart" [ngClass]="{'activeCartDisplay': loggedin}" [routerLinkActive]="'activeCart'"
+                    [hidden]="!loggedin" id="mainPageCart">
+                    <a class="cart" attr.current-count="{{cartDataCount}}"> <i
+                            class="fa-sharp fa-solid fa-cart-shopping"></i></a>
+                    <h3>Cart</h3>
+                </div>
+            </ul>
+        </nav>
+        <div [hidden]="!loggedin">
+            <div class="user">
+                <p id="user" title="{{loggedinUser}}"> <i class="fa-regular fa-circle-user"></i>
+                    {{(loggedinUser?.username)||(loggedinUser)|uppercase}}</p>
+                <p id="user" title="Logout" (click)="logout()"><i class="fa-solid fa-right-from-bracket"></i></p>
+            </div>
         </div>
+    </div>
+    <div class="menu-bar" (click)="toggleMenuBar()" >
+        <i id="menuBar" class="fa-solid fa-2x fa-bars"></i>
+        <i id="closeMenu" class="fa-solid fa-2x fa-xmark"></i>
     </div>
 </div>
 
@@ -40,7 +49,7 @@
         <div class="loginMain">
             <div class="loginDiv">
                 <div class="close" (click)="closePanel()"><i class="fa-solid fa-xmark"></i></div>
-                <div class="grid grid-two-columns">
+                <div class="grid grid-two-columns grid-login-two-columns">
                     <div class="login_Image">
                         <div class="loginMoto">
                             <h2>Login</h2>
@@ -55,21 +64,23 @@
                         <form (ngSubmit)="login(loginuser,loginpassword)">
                             <div class="login-fields">
                                 <label for="userloginmail">Email</label>
-                                <input type="email" placeholder="Enter your Mail-Id" name="usernamillogin" #loginuser required> <span>
+                                <input type="email" placeholder="Enter your Mail" name="usernamillogin" #loginuser
+                                    required> <span>
                                 </span>
                             </div>
                             <div class="login-fields">
                                 <label for="userloginpass">Password</label>
                                 <div class="showpass">
-                                    <input type="password" placeholder="Enter your password" name="userloginpass" #loginpassword required>
+                                    <input type="password" placeholder="Enter your Password" name="userloginpass"
+                                        #loginpassword required>
                                 </div> <span>
                                 </span>
-                                <p><small> <a routerLink="/contactUs"> Forgot Password?</a></small></p>
+                                <p><small> <a (click)="forgot()" title="Forgot Password"> Forgot Password?</a></small>
+                                </p>
                             </div>
 
                             <div class="login-fields loginBtn">
-                                <button type="submit" name="submit" 
-                                    class="btn"> Login
+                                <button type="submit" name="submit" class="btn"> Login
                                 </button>
                             </div>
                             <p id="loginError"></p>
@@ -104,56 +115,71 @@
                     </div>
                     <form [formGroup]="registerForm" (ngSubmit)="registerUser()" class="registerDiv">
                         <div class="form_fields">
-                            <!-- <label>User Name</label> -->
-                            <input type="text" name="user" title="Enter Your Username" formControlName="username"
-                                placeholder="USERNAME" pattern="^[A-Za-z]+$" required>
+                            <input type="text" name="user" title="Enter User Name" formControlName="username"
+                                placeholder="User Name" pattern="^[a-zA-Z]+$" minlength="3" maxlength="15" required>
 
-                            <div
-                                *ngIf="registerForm.controls['username'].invalid && (registerForm.controls['username'].touched||registerForm.controls['username'].dirty)">
-                                <p *ngIf="registerForm.controls['username'].errors?.['required']">This is a required
-                                    field</p>
-                                <p *ngIf="registerForm.controls['username'].errors?.['pattern']">Please Enter Only
-                                    Alphabets</p>
+                            <div class="errorBox"
+                                *ngIf="registerForm.controls['username'].invalid && (registerForm.controls['username'].touched || registerForm.controls['username'].dirty)">
+                                <div class="errorMessageBox"
+                                    *ngIf="registerForm.controls['username'].hasError('pattern1')">
+                                    <p>Space Not Allowed</p>
+                                </div>
+                                <div class="errorMessageBox"
+                                    *ngIf="registerForm.controls['username'].hasError('pattern2')">
+                                    <p>Consecutive 4 Same Alphabets Not Allowed</p>
+                                </div>
+                                <div class="errorMessageBox"
+                                    *ngIf="registerForm.controls['username'].errors?.['required']">
+                                    <p>This is a required field</p>
+                                </div>
+                                <div class="errorMessageBox"
+                                    *ngIf="registerForm.controls['username'].errors?.['pattern']">
+                                    <p>Please enter only alphabets</p>
+                                </div>
+                                <div class="errorMessageBox"
+                                    *ngIf="registerForm.controls['username'].errors?.['minlength']">
+                                    <p>Please enter at least 3 characters</p>
+                                </div>
                             </div>
                         </div>
 
                         <div class="form_fields">
-                            <!-- <label>Email</label> -->
-                            <input type="email" name="mailid" title="Enter Your Mail Id" formControlName="mail"
-                                placeholder="USER MAILID"
-                                pattern="^[0-9a-zA-Z]+[._]{0,1}[0-9a-zA-Z]+[@][a-zA-Z]+[.][a-zA-Z]{2,3}([.][a-zA-Z]{2,3}){0,1}$"
+                            <input type="email" name="mailid" title="Enter Mail" formControlName="mail"
+                                placeholder="User Mail"
+                                pattern="^[0-9a-zA-Z]+(?:[.]{0,1}[0-9a-zA-Z])?[@][a-zA-Z]+[.][a-zA-Z]{2,3}([.][a-zA-Z]{2,3}){0,1}$"
                                 required>
 
-                                <div
+                            <div
                                 *ngIf="registerForm.controls['mail'].invalid && (registerForm.controls['mail'].touched||registerForm.controls['mail'].dirty)">
                                 <p *ngIf="registerForm.controls['mail'].errors?.['required']">This is a required
                                     field</p>
-                                <p *ngIf="registerForm.controls['mail'].errors?.['pattern']">Please Enter Valid Mail ID</p>
+                                <p *ngIf="registerForm.controls['mail'].errors?.['pattern']">Please Enter Valid Mail ID
+                                </p>
                             </div>
                         </div>
 
                         <div class="form_fields">
-                            <!-- <label>Mobile Number</label> -->
-                            <input type="`" title="Enter Your Mobile Number" formControlName="mobile"
-                                name="mobileNumber" placeholder="MOBILE NUMBER" pattern="^[6-9]{1}[0-9]{9}$" required
-                                minlength="10" maxlength="10">
-                                <div
+                            <input type="`" title="Enter Mobile Number" formControlName="mobile" name="mobileNumber"
+                                placeholder="Mobile Number" pattern="^[6-9]{1}[0-9]{9}$" required minlength="10"
+                                maxlength="10">
+                            <div
                                 *ngIf="registerForm.controls['mobile'].invalid && (registerForm.controls['mobile'].touched||registerForm.controls['mobile'].dirty)">
-                                <p *ngIf="registerForm.controls['mobile'].errors?.['required']">This is a required
-                                    field</p>
-                                <p *ngIf="registerForm.controls['mobile'].errors?.['pattern']">Please Enter Valid Movile Number</p>
+                                <p *ngIf="registerForm.controls['mobile'].errors?.['required']">This is a required field
+                                </p>
+                                <p *ngIf="registerForm.controls['mobile'].errors?.['pattern']">Please Enter Valid Mobile
+                                    Number</p>
                             </div>
                         </div>
 
                         <div class="form_fields">
-                            <!-- <label>Password</label> -->
-                            <input title="Enter your Password" name="userPassword" type="password" class="passshow"
-                                placeholder="PASSWORD" formControlName="password" required>
-                                <div
+                            <input title="Enter Password" name="userPassword" type="password" class="passshow"
+                                placeholder="Password" formControlName="password" required>
+                            <div
                                 *ngIf="registerForm.controls['password'].invalid && (registerForm.controls['password'].touched||registerForm.controls['password'].dirty)">
                                 <p *ngIf="registerForm.controls['password'].errors?.['required']">This is a required
                                     field</p>
-                                <p *ngIf="registerForm.controls['password'].errors?.['pattern']">Please Enter One Caps, Small, Number, Special Character, length must be 7 & above </p>
+                                <p *ngIf="registerForm.controls['password'].errors?.['pattern']">Please Enter One Caps,
+                                    Small, Number, Special Character, length must be 7 & above </p>
                             </div>
                         </div>
                         <div class="errorData">
@@ -168,9 +194,8 @@
                                 <p class="successfulMessage"></p>
                             </div>
 
-                            <h4 style="text-align: center;">Already a user?</h4> <span>
-                                <input type="button" value="Login" class="btn"
-                                    (click)="loginModal()"></span>
+                            <h3 style="text-align: center;">Already a user?</h3> <span>
+                                <input type="button" value="Login" class="btn" (click)="loginModal()"></span>
                         </div>
                     </form>
                 </div>
@@ -188,6 +213,57 @@
             <h2>Registered Successful</h2>
             <div class="button">
                 <button id="" class="btn" (click)="loginModal()"> Okay </button>
+            </div>
+        </div>
+    </div>
+</dialog>
+
+<!-- -------------------------------Forgot Password Popup Dialog Box-------------------------------- -->
+
+<dialog class="forgotPasswordModal">
+    <div class="successMessage">
+        <div class="modalBox">
+            <div class="forgotPasswordModalHead">
+                <div class="">
+                    <h2>Forgot Password</h2>
+                </div>
+                <div id="forgotClose" (click)="forgotModalClose()"><i class="fa-solid fa-xmark"></i></div>
+            </div>
+            <div class="forgotPasswordDiv">
+                <form [formGroup]="forgotPasswordFormGroup" (ngSubmit)="forgotPassword(forgotPasswordMail.value)">
+                    <label for="email">Email</label>
+                    <input type="email"
+                        pattern="^[0-9a-zA-Z]+[._]{0,1}[0-9a-zA-Z]+[@][a-zA-Z]+[.][a-zA-Z]{2,3}([.][a-zA-Z]{2,3}){0,1}$"
+                        id="forgotPasswordMailId" #forgotPasswordMail placeholder="Enter your Mail"
+                        formControlName="forgotMailId" required>
+                    <div
+                        *ngIf="forgotPasswordFormGroup.controls['forgotMailId'].invalid && (forgotPasswordFormGroup.controls['forgotMailId'].touched||forgotPasswordFormGroup.controls['forgotMailId'].dirty)">
+                        <p *ngIf="forgotPasswordFormGroup.controls['forgotMailId'].errors?.['required']">This is a
+                            required
+                            field</p>
+                        <p *ngIf="forgotPasswordFormGroup.controls['forgotMailId'].errors?.['pattern']">Please Enter
+                            Valid Mail ID
+                        </p>
+                    </div>
+                    <div class="sendBtn">
+                        <button id="" class="btn" type="submit"> Send </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</dialog>
+
+
+<!-- -------------------------------Sucess Popup Dialog Box-------------------------------- -->
+<dialog class="ForgotPasswordSuccessModal">
+    <div class="successMessage">
+        <div class="modalBox">
+            <i class="fa-solid fa-circle-check fa-4x" style="color: green;"></i>
+            <h2>Request Send Successful</h2>
+            <p>We will Reach you through Mail</p>
+            <div class="button">
+                <button id="" class="btn" (click)="closeSuccessModal()"> Okay </button>
             </div>
         </div>
     </div>

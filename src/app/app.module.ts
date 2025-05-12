@@ -1,3 +1,8 @@
+// Reviewer    : Sabapathi Shanmugam
+// Date        : June 13, 2023
+// Participant : Kiran N
+// Mentors     : Snigdha Agarwal, Naveen Subramaniam
+
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
@@ -21,6 +26,7 @@ import { MyOrdersComponent } from './user/myOrders/myOrders.component';
 import { AdminModule } from './admin/admin.module';
 import { OrderStatusUpdateComponent } from '../app/admin/orderStatusUpdate/orderStatusUpdate.component';
 import { QueryComponent } from './user/query/query.component';
+import { OfferTimerComponent } from './user/offerTimer/offerTimer.component';
 
 @NgModule({
   declarations: [																			
@@ -40,7 +46,8 @@ import { QueryComponent } from './user/query/query.component';
       PaymentComponent,
       MyOrdersComponent,
       OrderStatusUpdateComponent,
-      QueryComponent
+      QueryComponent,
+      OfferTimerComponent
    ],
   imports: [
     BrowserModule,
@@ -54,5 +61,3 @@ import { QueryComponent } from './user/query/query.component';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
-
-

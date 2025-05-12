@@ -5,11 +5,11 @@
     --para-tint: #e4e4e4;
     --gradient: linear-gradient(0deg, rgb(132 144 255) 0%, rgb(98 189 252) 100%);
     --gradientSupport: -webkit-linear-gradient(0deg,
-        rgb(132 144 255) 0%,
-        rgb(98 189 252) 100%);
-  
+            rgb(132 144 255) 0%,
+            rgb(98 189 252) 100%);
+
     --shadowSupport: 0px 20px 20px 0px rgb(132 144 255 / 30%);
-  }
+}
 
 span {
     color: rgb(8, 5, 97);
@@ -20,16 +20,30 @@ span {
     color: rgb(191, 53, 53);
 }
 
-.menu {
+.menuBox #logo {
+    top: 0;
+    padding: 1rem 4rem;
+    line-height: 3.5rem;
+    z-index: 9999;
+    color: rgb(191, 53, 53);
+}
+
+.menuBox {
+    position: fixed;
+    background-color: rgb(239, 242, 245);
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+    width: 100%;
+    z-index: 99999;
+}
+
+.menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background-color: rgb(239, 242, 245);
     padding: 1rem 5rem;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 999;
 }
 
 #alignMenu {
@@ -187,31 +201,45 @@ button {
 
 .cart,
 #mainPageCart {
-  margin: auto 0;
-  font-weight: 900;
-  position: relative;
+    margin: auto 0;
+    font-weight: 900;
+    position: relative;
 }
 
 .cart .fa-cart-shopping,
 #mainPageCart .fa-cart-shopping {
-  font-size: 1.8rem;
+    font-size: 1.4rem;
+}
+
+#mainPageCart {
+    cursor: pointer;
+}
+
+.activeCart {
+    display: flex;
+    color: var(--btns-background);
+    font-weight: 600;
+}
+
+.activeCartDisplay {
+    display: flex;
 }
 
 .cart::after {
-  content: attr(current-count);
-  position: absolute;
-  top: 0;
-  transform: translateY(-0.4rem);
-  right: 0;
-  width: 1rem;
-  height: 1rem;
-  border-radius: 50%;
-  background-color: rgb(255, 0, 0);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 0.6rem;
-  color: var(--white);
+    content: attr(current-count);
+    position: absolute;
+    top: -0.1rem;
+    transform: translateY(-0.4rem);
+    right: 0;
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    background-color: rgb(255, 0, 0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.6rem;
+    color: var(--white);
 }
 
 /* LOGIN FORM */
@@ -241,9 +269,9 @@ button {
 }
 
 .loginDiv {
-    width: 50%;
+    width: 35rem;
     height: 30rem;
-    background-color:#ffff;
+    background-color: #ffff;
     margin-top: 3rem;
     margin-bottom: 3rem;
     border-radius: 2rem;
@@ -298,13 +326,19 @@ button {
     text-decoration: none;
 }
 
-.login_Data #loginError, .Registermodal .registerError {
+.login_Data #loginError,
+.Registermodal .registerError {
     color: #Ff0000;
     font-family: 600;
     text-align: center;
 }
 
-.errorData{
+#loginError {
+    position: absolute;
+    margin-left: 4rem;
+}
+
+.errorData {
     display: flex;
     justify-content: center;
     place-items: center;
@@ -313,15 +347,15 @@ button {
 /* ------------------------User Login Div--------------------- */
 
 .user {
-    position: absolute;
     top: 0;
     bottom: 0;
     right: 0;
-    display: inline-flex;
+    display: flex;
+    justify-content: end;
     flex-direction: row;
     align-items: center;
     cursor: pointer;
-    margin-right: 2rem;
+    margin:0 1rem 0 5rem;
 }
 
 #user {
@@ -418,6 +452,7 @@ button {
     margin: 3rem 0;
     color: rgb(30, 30, 222);
     cursor: pointer;
+    position: relative;
 }
 
 .newuser p a {
@@ -439,11 +474,66 @@ button {
 .Loginmodal,
 .Registermodal,
 .paymentModal,
-.registerSuccessModal {
+.registerSuccessModal,
+.forgotPasswordModal,
+.ForgotPasswordSuccessModal {
     width: 100%;
     margin: auto;
     background: none;
     border: none;
+}
+
+.forgotPasswordDiv {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.forgotPasswordDiv form {
+    display: flex;
+    flex-direction: column;
+}
+
+.forgotPasswordDiv label {
+    margin: 0 0 0.8rem 0;
+}
+
+.forgotPasswordDiv input {
+    padding: 0.6rem;
+}
+
+.forgotPasswordModalHead {
+    display: flex;
+    justify-content: space-between;
+}
+
+.forgotPasswordModal .sendBtn {
+    display: flex;
+    justify-content: center;
+}
+
+.forgotPasswordModal .btn {
+    font-size: 1rem;
+    padding: 0.4rem 0.8rem;
+    margin-top: 1.6rem;
+}
+
+.forgotPasswordModal .successMessage h2 {
+    margin: 1.2rem 1.2rem 0.4rem 1.2rem;
+}
+
+/* .forgotPasswordModal .fa-xmark {
+    position: absolute;
+    margin-right: 0.8rem;
+} */
+
+.forgotPasswordModal p {
+    color: rgb(167, 9, 9);
+    padding: 0.2rem;
+    font-size: 0.8rem;
+    position: absolute;
+    font-weight: 600;
+    max-width: 18rem;
 }
 
 #registered {
@@ -612,14 +702,14 @@ input::placeholder {
     margin: 0.4rem;
 }
 
-/* 
-  input:focus::-webkit-input-placeholder {
-    font-size: 0.8rem;
-    position: relative;
-    top: -0.6rem; 
-    transition: 0.2s ease-out;
-    color: var(--btns-background);
-  } */
+.errorBox {
+    display: flex;
+    flex-direction: column;
+}
+
+.errorMessageBox:not(:first-child) {
+    margin-top: 0.7rem;
+}
 
 select {
     padding: 0.2rem;
@@ -657,4 +747,153 @@ select {
     background: none;
     border: none;
     margin: auto;
+}
+
+.menu-bar {
+    display: none;
+}
+
+.menu-bar .fa-xmark {
+    display: none;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+@media screen and (max-width:1100px) {
+    .menu ul li {
+        padding: 0.8rem;
+    }
+
+    .menu {
+        padding: 1rem 3rem;
+    }
+}
+
+@media screen and (max-width:1000px) {
+    .menu {
+        padding: 1rem 1.5rem;
+    }
+
+    .menu ul li,
+    button,
+    div {
+        font-size: 0.9rem;
+    }
+
+    .menuBox {
+        position: fixed;
+        justify-content: start;
+        background-color: var(--white);
+        border-bottom: 0.01rem solid var(--btns-background);
+        height: 5rem;
+        width: 100%;
+        z-index: 999999;
+    }
+
+    .menu-bar {
+        display: block;
+        position: fixed;
+        top: 1.5rem;
+        bottom: 0;
+        right: 3rem;
+        z-index: 999999;
+        color: var(--btns-background);
+    }
+
+    .menu-bar i {
+        color: var(--btns-background);
+        padding: 0;
+    }
+
+    .menu {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        width: 100%;
+        background: var(--white);
+        z-index: 999999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: left;
+        transform: translateY(-100%);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.5s linear;
+    }
+
+    .menuActive .menu {
+        transform: translateX(0);
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .menuActive #menuBar {
+        display: none;
+    }
+
+    .menuActive #closeMenu {
+        display: block;
+    }
+
+    .menu ul {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .menu ul li,#mainPageCart,.user{
+        font-size: 1.4rem;
+        padding: 1.2rem 0;
+    }
+
+    .menu .user{
+        position: fixed;
+        top:2rem;
+        left:2rem;
+        bottom: 0;
+        width: max-content;
+        height: max-content;
+        font: 1.2rem;
+        align-items: flex-start;
+    }
+}
+
+@media screen and (max-width:620px) {
+    .grid-login-two-columns, .grid-register-two-columns{
+        grid-template-columns: 1fr;
+    }
+    .grid-register-two-columns .registerDiv{
+        margin: 1rem 3rem;
+    }
+    .RegistrationDiv form{
+        padding: 0;
+    }
+    .login_Image, .register_Image{
+        display: none;
+    }
+}
+
+@media screen and (max-width:320px) {
+    .menu ul li,#mainPageCart,.user{
+        font-size: 1rem;
+        padding: 1rem 0;
+    }
+}
+
+@media screen and (max-width:320px) {
+    .menuBox #logo {
+        padding: 1rem 2rem;
+    }
+
+    .menu-bar{
+        right: 2rem;
+    }
+    .menu ul li,#mainPageCart,.user{
+        font-size: 0.8rem;
+        padding: 1rem 0;
+    }
 }

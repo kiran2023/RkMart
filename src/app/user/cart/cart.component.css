@@ -279,3 +279,12 @@
   padding: 2rem;
   margin: 2rem;
 }
+
+@media screen and (max-width:520px) {
+  .priceSection, .cartGrid #priceSection{
+    display: none;
+  }
+  .cart-five-columns{
+    grid-template-columns: repeat(4,1fr);
+  }
+}

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Title } from "@angular/platform-browser";
+import { ProductsDataService } from './user/productsData.service';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,11 @@ import { Title } from "@angular/platform-browser";
 export class AppComponent {
   title = 'routing';
 
-  constructor(private titleService: Title) { }
+  offerApply: any;
+
+  constructor(private titleService: Title, private productDataService: ProductsDataService) {
+      this.productDataService.startTimer();
+  }
 
   ngOnInit() {
     this.titleService.setTitle('Home | RK MART');

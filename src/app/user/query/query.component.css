@@ -17,8 +17,7 @@
 }
 
 .queryBox {
-  width: max-content;
-  height: max-content;
+  width: 100%;
   border: 2px solid var(--btns-background);
   padding: 2rem;
 }
@@ -42,7 +41,6 @@
   height: 100%;
   display: grid;
   place-items: center;
-  margin-top: 6rem;
 }
 
 .queryDiv img {
@@ -79,4 +77,24 @@
 .queryBackBtn h2 {
   margin-top: 5rem;
   margin-left: 4rem;
+}
+
+
+@media screen and (max-width:920px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .queryBox {
+    width: 20rem;
+  }
+}
+
+@media screen and (max-width:620px) {
+  .querySection {
+    grid-template-columns: 1fr;
+    margin: 0 1rem;
+    gap: 1rem;
+  }
 }

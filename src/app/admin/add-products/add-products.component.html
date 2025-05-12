@@ -13,7 +13,7 @@
                     </div>
                     <div class="form-fields">
                         <label for="category"> Category </label>
-                        <select  #categoryData name="category" formControlName="category">
+                        <select #categoryData name="category" formControlName="category">
                             <option *ngFor="let category of category" [ngValue]="category">{{ category }}</option>
                         </select>
                     </div>
@@ -24,10 +24,6 @@
                     <div class="form-fields">
                         <label for="filterValue"> Filter Value </label>
                         <input type="text" name="filterValue" formControlName="filterValue">
-                    </div>
-                    <div class="form-fields">
-                        <label for="classData"> Class Data </label>
-                        <input type="text" name="classData" formControlName="classData">
                     </div>
                     <div class="form-fields">
                         <label for="value"> Value </label>
@@ -58,12 +54,12 @@
                         <input type="text" name="quantity" formControlName="quantity">
                     </div>
                     <div class="form-fields">
-                        <label for="ratingCount"> Rating Count </label>
-                        <input type="text" name="ratingCount" formControlName="ratingCount">
+                        <label for="rating"> Rating Users Count </label>
+                        <input type="text" name="rating" formControlName="rating" readonly>
                     </div>
                     <div class="form-fields">
-                        <label for="reviewCount"> Review Count </label>
-                        <input type="text" name="reviewCount" formControlName="reviewCount">
+                        <label for="ratingAverage"> Rating Average </label>
+                        <input type="text" name="ratingAverage" formControlName="ratingAverage" readonly>
                     </div>
                     <div class="form-fields">
                         <label for="originalAmount"> Original Amount </label>
@@ -73,20 +69,36 @@
                         <label for="discounted"> Discounted </label>
                         <input type="text" name="discounted" formControlName="discounted">
                     </div>
+                    <div class="form-fields">
+                        <label for="originalAmount"> Actual Amount </label>
+                        <input type="text" name="actualAmount" formControlName="actualAmount">
+                    </div>
+                    <div class="form-fields">
+                        <label for="manufacture"> Manufactured </label>
+                        <input type="text" name="manufacture" formControlName="manufacture">
+                    </div>
+                    <div class="form-fields" >
+                        <label for="packed"> Packed </label>
+                        <input type="text" name="packed" formControlName="packed">
+                    </div>
+                    <div class="form-fields" >
+                        <label for="expiry"> Expiry </label>
+                        <input type="text" name="expiry" formControlName="expiry">
+                    </div>
                 </div>
                 <div class="formBtn">
-                    <button class="btn" routerLink="/admin/manageProducts" >Back</button>
-                    <button class="btn" (click)="addProduct(addProductForm.value)" > Add Product </button>
-                    <button class="btn" *ngIf="editProductURLId" (click)="updateProduct(addProductForm.value)"> Update Product </button>
+                    <button class="btn" routerLink="/admin/manageProducts">Back</button>
+                    <button class="btn" (click)="addProduct(addProductForm.value)"> Add Product </button>
+                    <button class="btn" *ngIf="editProductURLId" (click)="updateProduct(addProductForm.value)"> Update
+                        Product </button>
 
                     <button class="btn" (click)="resetForm()">Reset</button>
                 </div>
 
                 <div id="addProductMessage">
-                    <p> {{addProductMessage}} </p>
+                    <p id="addProductMessageData"> {{addProductMessage}} </p>
                 </div>
             </form>
         </div>
-
     </div>
 </section>

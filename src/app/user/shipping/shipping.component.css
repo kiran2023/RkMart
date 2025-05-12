@@ -70,3 +70,15 @@ form input, textarea {
     font-size: 0.8rem;
     font-weight: 900;
 }
+
+.errorBox {
+    display: flex;
+    flex-direction: column;
+    color: rgb(167, 9, 9);
+    font-size: 0.8rem;
+    font-weight: 900;
+}
+
+.errorMessageBox:not(:first-child) {
+    margin-top: 0.rem;
+}

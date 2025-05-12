@@ -3,7 +3,7 @@
 
     <div class="container">
         <section>
-            <div id="ordersDashboard">
+            <div id="ordersDashboard" *ngIf="orderData.length!=0">
                 <h2 class="common-heading" >Orders</h2>
                 <table class="userTable">
                     <thead>
@@ -26,12 +26,15 @@
                                 <td>{{order.productName}}</td>
                                 <td>{{order.orderStatus}}</td>
                                 <td>{{order.quantity}}</td>
-                                <td routerLink="/admin/orderStatus/{{order.orderUniqueId}}" > <i class="fa-solid fa-pen-to-square"></i></td>
+                                <td routerLink="/admin/orderStatus/{{order.orderUniqueId}}" [queryParams]="{quantity:order.quantity}" > <i class="fa-solid fa-pen-to-square"></i></td>
                             </tr>
                         </ng-container>
                     </tbody>
                 </table>
             </div>
         </section>
+        <div id="ordersBox" *ngIf="orderData.length==0">
+            <p> <mark id="markData"> No Orders Has Been Placed </mark> </p>
+        </div>
     </div>
 </div>

@@ -49,11 +49,27 @@
     background: rgb(238, 238, 241);
 }
 
-.userTable tbody tr:hover{
+.userTable tbody tr:hover {
     background-color: var(--btns-background);
     color: var(--white);
 }
 
 .userTable tbody tr:last-of-type {
     border-bottom: 0.3rem solid var(--btns-background);
+}
+
+#ordersBox {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    place-items: center;
+}
+
+#markData {
+    padding: 0.4rem;
+    background-color: var(--btns-background);
+    color: #ffff;
+    font-weight: 900;
+    display: flex;
+    justify-content: center;
 }

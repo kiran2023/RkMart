@@ -2,7 +2,7 @@ import * as CryptoJS from 'crypto-js';
 
 import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { AdminProductsService } from 'src/app/admin/adminProducts.service';
@@ -24,12 +24,15 @@ export class MenuComponent implements OnInit {
   loggedinUserMail: string = "";
 
   cartDataCount: number = 0;
+  forgotPasswordFormGroup!: FormGroup;
+
+  remainingTime:any;
 
   private readonly encryptionKey = 'RkMart Member';
 
   @Output() loginStatus: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  constructor(private dataService: ProductsDataService, private cartService: CartService, private loginFormBuilder: FormBuilder, private admin: AdminProductsService, private auth: AuthUserGuard, private router: Router, private http: HttpClient) {
+  constructor(private dataService: ProductsDataService, private cartService: CartService, private FormBuilder: FormBuilder, private admin: AdminProductsService, private productDataService:ProductsDataService, private auth: AuthUserGuard, private router: Router, private http: HttpClient) {
     this.dataService.registeredUser().subscribe((user) => {
       this.users = user;
     });
@@ -39,6 +42,11 @@ export class MenuComponent implements OnInit {
     this.loggedin = this.dataService.userLogin;
     this.loggedinUser = this.dataService.activeUser;
     this.adminLoggedin = this.admin.admin;
+
+    this.forgotPasswordFormGroup = this.FormBuilder.group(
+      {
+        forgotMailId: [, [Validators['required'], Validators['pattern']]],
+      })
   }
 
   ngOnInit() {
@@ -51,14 +59,34 @@ export class MenuComponent implements OnInit {
     }
   }
 
-  registerForm = this.loginFormBuilder.group(
+  registerForm = this.FormBuilder.group(
     {
-      username: [, [Validators['required'], Validators['pattern']]],
+      username: [, [Validators['required'], Validators['pattern'], Validators['minLength'], this.userValidate(/^\S+$/, 'pattern1'), this.userValidate(/^(?!.*([A-Za-z])\1\1\1)[A-Za-z0-9 ]*$/, 'pattern2')
+      ]],
       mail: [, [Validators['required'], Validators['pattern']]],
       mobile: [, [Validators['required'], Validators['pattern']]],
       password: ['', [Validators['required'], Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{7,}$")]]
     }
   )
+
+  userValidate(pattern: any, errorKey: any) {
+    return (control: FormControl) => {
+      const username: any = control.value;
+      const isValid = pattern.test(username);
+
+      if (!username) {
+        return null;
+      }
+  
+      if (!isValid) {
+        return {
+          [errorKey]: true
+        };
+      }
+  
+      return false;
+    };
+  }
 
   loginModal() {
     this.dataService.registeredUser().subscribe((user) => {
@@ -105,10 +133,14 @@ export class MenuComponent implements OnInit {
         });
         if (newUser) {
           let userPassword: any = this.registerForm.controls["password"].value;
-          let encryptedPassword:any = CryptoJS.AES.encrypt(userPassword, this.encryptionKey).toString();
+          let encryptedPassword: any = CryptoJS.AES.encrypt(userPassword, this.encryptionKey).toString();
+
+          let usernameData: any = this.registerForm.controls['username'].value;
+          let updatedData = usernameData.charAt(0)?.toUpperCase() + usernameData.slice(1);
           let d = {
             ...this.registerForm.value,
-            password:encryptedPassword
+            username: updatedData,
+            password: encryptedPassword
           }
           this.dataService.registerUser(d).subscribe(data => { });
           SuccessfulRegistered.showModal();
@@ -117,9 +149,9 @@ export class MenuComponent implements OnInit {
           RegisterPanel.showModal();
         }
       });
-    }else{
+    } else {
       invalidRegistration.innerHTML = "Enter all the fields";
-      setTimeout(() => invalidRegistration.innerHTML = '', 3000 )
+      setTimeout(() => invalidRegistration.innerHTML = '', 3000)
     }
   }
 
@@ -128,7 +160,7 @@ export class MenuComponent implements OnInit {
     this.loggedin = false;
 
     if (usermail.value.trim() !== '' || userpassword.value.trim() !== '') {
-      for (let user of this.users) {
+      this.users.find((user:any) => {
         let decryptedValue = CryptoJS.AES.decrypt(user.password, this.encryptionKey).toString(CryptoJS.enc.Utf8);
         if (usermail.value === user.mail && userpassword.value === decryptedValue) {
           invalidLogin.innerHTML = "";
@@ -145,13 +177,11 @@ export class MenuComponent implements OnInit {
           this.closePanel();
           alert("Login Successful");
           this.loginStatus.emit(this.loggedin);
-          break;
         }
-      }
-
+      })
 
       if (!this.loggedin) {
-        for (let user of this.admins) {
+        this.admins.find((user:any)=>{
           let decryptedValue = CryptoJS.AES.decrypt(user.password, this.encryptionKey).toString(CryptoJS.enc.Utf8);
 
           if (usermail.value === user.mail && userpassword.value === decryptedValue) {
@@ -161,20 +191,55 @@ export class MenuComponent implements OnInit {
             sessionStorage.setItem('userName', user.name);
             this.closePanel();
             this.router.navigate(['admin/dashboard']);
-            break;
           }
-        }
+        })
       }
 
       if (!this.loggedin) {
         var invalidLogin: any = document.querySelector('#loginError');
         invalidLogin.innerHTML = "Invalid Credentials";
+        setTimeout(() => {
+          invalidLogin.innerHTML = " "
+        }, 3000);
       }
     } else {
       invalidLogin.innerHTML = "Enter all the fields";
-      setTimeout(() => invalidLogin = undefined, 3000 )
+      setTimeout(() => invalidLogin.innerHTML = " ", 3000)
     }
   }
+
+  // Forgot Password
+
+  forgot() {
+    let forgotPasswordModal: any = document.querySelector('.forgotPasswordModal');
+    forgotPasswordModal.showModal();
+  }
+
+  forgotPassword(mail: any) {
+    if (this.forgotPasswordFormGroup.valid) {
+      let forgotPasswordData = {
+        mail,
+        Query: "Forgot Password"
+      }
+      this.http.post('http://localhost:3000/forgotPasswordRequest', forgotPasswordData).subscribe((response) => {
+        let forgotPasswordDiv: any = document.querySelector('.forgotPasswordModal');
+        forgotPasswordDiv.close();
+        let forgotPasswordModal: any = document.querySelector('.ForgotPasswordSuccessModal');
+        forgotPasswordModal.showModal();
+      });
+    }
+  }
+
+  forgotModalClose() {
+    let forgotPasswordModal: any = document.querySelector('.forgotPasswordModal');
+    forgotPasswordModal.close();
+  }
+
+  closeSuccessModal() {
+    let forgotPasswordModal: any = document.querySelector('.ForgotPasswordSuccessModal');
+    forgotPasswordModal.close();
+  }
+
   logout() {
     let result = confirm("Are you sure want to Logout");
     if (result) {
@@ -186,6 +251,11 @@ export class MenuComponent implements OnInit {
       this.loginStatus.emit(this.loggedin);
       this.router.navigate(['/home']);
     }
+  }
+
+  toggleMenuBar(){
+    let menu = document.querySelector('.menuBox');
+    menu?.classList.toggle('menuActive');
   }
 }
 

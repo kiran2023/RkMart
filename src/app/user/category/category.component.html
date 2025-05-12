@@ -1,17 +1,12 @@
-<!-- ------------------Navigation Menu----------------- -->
-<app-menu></app-menu>
-
 <!-- -------------Catergory Section----------------- -->
+
 <div class="mainDivison bevergeSection">
-
-    <div class="productsCount">
-        <p id="productsAvailable"></p>
-        <p id="OverallProductsAvailable"></p>
-        <p id="noProductsAvailable"></p>
+    <div class="category-bar" (click)="toggleCategory()">
+        <p  id="categoryBar"> <i class="fa-solid fa-bars"></i> Filter</p>
+        <p  id="categoryCloseMenu"> <i class="fa-solid fa-xmark"></i> Filter</p>
     </div>
-
     <div class="twoSection sectionGrid">
-
+    
         <div class="categoryData">
             <aside>
                 <h2>Filters</h2>
@@ -22,7 +17,7 @@
                 <ng-container *ngFor="let categoryType of categoryTypes">
                     <h3 class="categoryDetails">
                         <div *ngIf="categoryType==this.currentCategory||category==''">
-                            <a routerLink="/products/{{categoryType}}" id="1001"
+                            <a routerLink="/products/{{categoryType}}"
                                 class="categoryAvailable">{{categoryType|titlecase}} <i
                                     class="fa-solid fa-angle-right"></i></a>
                         </div>
@@ -32,18 +27,19 @@
                 <h4 class="categoryChoosen"></h4>
                 <hr>
 
-                <div class="brands categoryAvailable" id="1001">
+                <div class="brands categoryAvailable">
                     <ng-container *ngFor="let category of categoryDisplay">
                         <ng-container *ngIf="category.categoryType==this.currentCategory||this.currentCategory==null">
                             <h5> <b> {{category.categoryType}} </b></h5>
-                            <div class="clearSection">
+                            <!-- <div class="clearSection">
                                 <input type="search" id="grocery" class="clearSearch" placeholder="Search Variety">
                                 <p id="clearFilter">Clear All</p>
-                            </div>
+                            </div> -->
                             <ul>
                                 <li *ngFor="let categoryData of category.category, index as i">
-                                    <input type="checkbox" (change)="categorySelected($event, category?.categoryUniqueValue[i])" name={{categoryData}}
-                                        attr.data-btn-num={{category?.categoryUniqueValue[i]}}
+                                    <input type="checkbox"
+                                        (change)="categorySelected($event, category?.categoryUniqueValue[i])"
+                                        name={{categoryData}} attr.data-btn-num={{category?.categoryUniqueValue[i]}}
                                         value={{category?.categoryUniqueValue[i]}} class={{category?.categoryClass[i]}}>
                                     {{categoryData|titlecase}}
                                 </li>
@@ -52,7 +48,7 @@
                     </ng-container>
                 </div>
                 <hr>
-                <div class="accordin">
+                <div class="accordin" *ngIf="offerApply=='true'">
                     <input type="checkbox" name="discount" id="accordinData" class="accordinInput">
                     <label for="accordinData" class="accordinLabel">
                         <h5><b>Discounts</b></h5> <i class="fa-solid fa-chevron-down"></i>

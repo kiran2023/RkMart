@@ -1,77 +1,87 @@
-
 /* ----------------------------------CONTACT US----------------------------- */
 .contact-section {
-    width: 100%;
-    padding: 2rem;
-    padding-top: 8rem;
-  }
-  
-  .contact-section h3 {
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
-  }
-  
-  .contact-section .map {
-    margin-bottom: 4rem;
-  }
-  
-  .contactHeaderDiv{
-    display: flex;
-    justify-content: space-between;
-  }
+  width: 100%;
+  padding: 2rem;
+  padding-top: 8rem;
+}
 
-  .btn{
-    margin: 0;
-  }
+.contact-section h3 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
 
-  .contact-section form {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-  }
-  
-  .contact-section form input,
-  .contact-section form textarea {
-    padding: 1rem 3rem;
-    border-radius: 1rem;
-    position: relative;
-    border: 2px solid rgb(47, 81, 203);
-    margin: 1.2rem 1rem;
-    width: 100%;
-  }
-  
-  .contact-section .submitbtn {
-    display: flex;
-    justify-content: center;
-    align-content: center;
-  }
-  
+.contact-section .map {
+  margin-bottom: 4rem;
+}
+
+.contactHeaderDiv {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn {
+  margin: 0;
+}
+
+.contact-section form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.contact-section form input,
+.contact-section form textarea {
+  padding: 1rem 3rem;
+  border-radius: 1rem;
+  position: relative;
+  border: 2px solid rgb(47, 81, 203);
+  margin: 1.2rem 1rem;
+  width: 100%;
+}
+
+.contact-section .submitbtn {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.contact-section button {
+  padding: 1rem 2rem;
+  border-radius: 0.8rem;
+}
+
+.username {
+  display: flex;
+  flex-direction: column;
+
+}
+
+.formBox .username .errorData p {
+  color: rgb(167, 9, 9);
+  font-size: 0.8rem;
+  font-weight: 600;
+  position: absolute;
+  margin-left: 1.5rem;
+}
+
+#errorMessage {
+  width: 100%;
+  color: rgb(167, 9, 9);
+  font-size: 1rem;
+  font-weight: 600;
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+
+
+@media screen and (max-width:420px) {
   .contact-section button {
-    padding: 1rem 2rem;
-    border-radius: 0.8rem;
-  }
- 
-  .username{
-    display: flex;
-   flex-direction: column;
-
+    padding: 0.6rem;
   }
 
-  .formBox .username .errorData p{
-    color: rgb(167, 9, 9);
-    font-size: 0.8rem;
-    font-weight: 600;
-    position: absolute;
-    margin-left: 1.5rem;
+  .contact-section h3 {
+    font-size: 1.2rem;
   }
-
-  #errorMessage{
-    width: 100%;
-    color: rgb(167, 9, 9);
-    font-size: 1rem;
-    font-weight: 600;
-    display: grid;
-    place-items: center;
-    position: relative;
-  }
+}

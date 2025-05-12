@@ -7,10 +7,10 @@ import { Title } from '@angular/platform-browser';
   templateUrl: './manage-orders.component.html',
   styleUrls: ['./manage-orders.component.css']
 })
-export class ManageOrdersComponent implements OnInit{
+export class ManageOrdersComponent implements OnInit {
   orderData: any = [];
 
-  constructor(private http: HttpClient, private title:Title) {
+  constructor(private http: HttpClient, private title: Title) {
     this.http.get('http://localhost:3000/orders').subscribe((orderData: any) => {
 
       let orderDatas = orderData;
@@ -27,13 +27,23 @@ export class ManageOrdersComponent implements OnInit{
               orderStatus: response[0].status
             }
             this.orderData.push(orderStatus);
+            // if (orderStatus == "Cancelled") {
+            //   alert("Entered");
+            //   this.http.get(`http://localhost:3000/Productdata/${cart.productid}`).subscribe((data: any) => {
+            //     let updatedData = {
+            //       ...data,
+            //       Stock: data.Stock + data.quantity
+            //     }
+            //     this.http.patch(`http://localhost:3000/Productdata/${cart.productid}`, updatedData).subscribe();
+            //   })
+            // }
           })
         })
       });
     });
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.title.setTitle('Orders | RK MART');
   }
 }

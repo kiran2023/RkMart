@@ -51,7 +51,7 @@ export class ContactUsComponent implements OnInit {
     }
     if(this.contactUs.invalid){
       invalidMessage.innerHTML= "Enter all the fields";
-      setTimeout(()=> invalidMessage='', 3000)
+      setTimeout(()=> invalidMessage.innerHTML='', 3000)
     }
   }
 }

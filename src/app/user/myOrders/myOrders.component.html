@@ -3,9 +3,12 @@
 
 <!-- --------------------------Order Section----------------------------- -->
 <div class="orders">
-  <h2 routerLink="../"> <button class="btn">  <i class="fa-solid fa-arrow-right fa-flip-horizontal"></i> Back </button></h2>
+  <h2 routerLink="../"> <button class="btn"> <i class="fa-solid fa-arrow-right fa-flip-horizontal"></i> Back </button>
+  </h2>
 </div>
-<div id="myOrderHead" *ngIf="orderData.length!=0"> <h2 > Orders </h2> </div>
+<div id="myOrderHead" *ngIf="orderData.length!=0">
+  <h2> Orders </h2>
+</div>
 
 <div id="orderPage" *ngIf="orderData.length!=0">
   <div class="container orderDataBox">
@@ -13,10 +16,38 @@
       <ng-container *ngFor="let orderData of orderData">
         <div class="orderStatusData">
           <p id="OrderId"> <b> Order Id: </b> {{orderData.orderUniqueId}} </p>
-          <p id="OrderStatus"> <b> Order: {{orderData.orderStatus}}</b> </p>
-          <button class="btn" id="cancelOrder" (click)="cancelOrder(orderData.orderUniqueId)" *ngIf="orderData.orderStatus !='Delivered' ">Cancel Order</button>
+          <p id="OrderStatus"> <b> Ordered On : </b> {{orderData.orderDate}} </p>
+          <div class="deliveryExcepted"
+            *ngIf=" orderData.orderStatus !='Delivered' && orderData.orderStatus !='Cancelled' "> <b> Delivery Excepted
+              : </b> {{orderData.delivery}} </div>
+          <div class="deliveryExcepted" *ngIf=" orderData.orderStatus =='Delivered'"> <b> Delivered on : </b>
+            {{orderData.delivery}} </div>
+          <div class="reviewRatingSection"
+            *ngIf="orderData.orderStatus =='Delivered' && orderData.reviewStatus=='false' ">
+            <div class="reviewSection">
+              <p> <b> Rating </b>
+                <span *ngFor="let star of [1, 2, 3, 4, 5]" (click)="onStarClick(orderData.productid,star)">
+                  <i class="fa fa-star" [ngClass]="{'checked': star <= userRating[orderData.productid]}"></i>
+                </span>
+              </p>
+              <div id="reviewSubmitButton">
+                <button class="btn" (click)="submitRating(orderData.productid, orderData.orderId)"> Submit </button>
+              </div>
+            </div>
+          </div>
+          <button class="btn" id="cancelOrder"
+            (click)="cancelOrder(orderData.orderUniqueId, orderData.productid, orderData.quantity, orderData.delivery)"
+            *ngIf=" orderData.orderStatus !='Delivered' && orderData.orderStatus !='Cancelled' && orderData.deliveryDeadline == false ">Cancel
+            Order</button>
+          <div class="deliveryExcepted"
+            *ngIf=" orderData.orderStatus !='Delivered' && orderData.orderStatus !='Cancelled' && orderData.deliveryDeadline == true">
+            <b> Order Deliver Soon </b>
+          </div>
+          <div class="deliveryExcepted" title="Download" (click)="printOrder(orderData)" >
+            <i class="fa-solid fa-download"></i>
+          </div>
         </div>
-        <hr>
+        <!-- <hr> -->
         <div class="orderDescriptionData order-grid order-grid-four-column">
           <div class="productImageData">
             <img src="{{orderData.image}}" alt="">
@@ -28,9 +59,7 @@
               <p id="productPrice"> <b> Price : </b> {{ orderData.originalAmount }} </p>
             </div>
           </div>
-          <div class="orderStatus"> <b> Status :  {{orderData.orderStatus}} </b>
-          </div>
-          <!-- <div class="deliveryExcepted"> <b> Delivery Excepted by</b> 28 Feb 2022</div> -->
+          <div class="orderStatus"> <b> Status : {{orderData.orderStatus}} </b></div>
           <div class="total"> <b> Total : </b> {{ orderData.originalAmount * orderData.quantity}}</div>
         </div>
         <hr>
@@ -41,20 +70,21 @@
 
 <div *ngIf="orderData.length==0">
   <div class="orderDiv">
-      <div class="">
-          <img src="https://img.freepik.com/free-vector/abstract-shaped-order-now-banner_23-2148718483.jpg?w=740&t=st=1684328746~exp=1684329346~hmac=d3220d9c9cbbd33be2042d71e011aec88d852cf61844e2fd799a6216ba2f5626"
-              alt="">
-          <div class="continueShopping">
-              <p>No orders has been Placed</p>
-              <a routerLink="/products"> <button class="btn">Order Now</button> </a>
-          </div>
+    <div class="">
+      <img
+        src="https://img.freepik.com/free-vector/abstract-shaped-order-now-banner_23-2148718483.jpg?w=740&t=st=1684328746~exp=1684329346~hmac=d3220d9c9cbbd33be2042d71e011aec88d852cf61844e2fd799a6216ba2f5626"
+        alt="">
+      <div class="continueShopping">
+        <p>No orders has been Placed</p>
+        <a routerLink="/products"> <button class="btn">Order Now</button> </a>
       </div>
+    </div>
   </div>
 </div>
 
 <!-- Popup Message -->
 
-<dialog class="popupMsg">
+<!-- <dialog class="popupMsg">
   <i class="fa-solid fa-xmark fa-1x popupClose" (click)="closeOffer()"></i>
   <div class="offerPopUp">
     <div class="offerImage">
@@ -67,4 +97,4 @@
       <button class="btn"> <a routerLink="/products"> Grab Now </a> </button>
     </div>
   </div>
-</dialog>
+</dialog> -->

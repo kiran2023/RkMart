@@ -1,7 +1,8 @@
 /* ------------------------MAIN DATA--------------------- */
-body{
+body {
   height: 100%;
 }
+
 section {
   padding: 0rem;
 }
@@ -16,7 +17,8 @@ h1 {
   display: grid;
   place-items: center;
   height: 100%;
-  padding:8rem 0 2rem 0;
+  max-width: 100%;
+  padding: 8rem 0 2rem 0;
   margin: 0 10rem 0 10rem;
 }
 
@@ -36,8 +38,8 @@ h1 {
 }
 
 .main-image img {
-  max-width: 100%;
-  height: 100%;
+  width: 100%;
+  max-height: 100%;
   border-radius: 3rem;
 }
 
@@ -63,21 +65,193 @@ span {
 
 .sales-image img {
   width: 100%;
-  height: 13rem;
+}
+
+.grid-sales {
+  padding: 0;
 }
 
 .container-sales {
   padding: 0 0 2rem 2rem;
 }
 
-.productBox{
+.productBox {
   height: 16rem;
 }
 
-.figCaptionDiv{
+.figCaptionDiv {
   min-height: 3.5rem;
 }
 
-.common-heading{
+.common-heading {
   margin: 0.8rem 0;
+}
+
+.offerData {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  place-items: center;
+}
+
+@media screen and (max-width:1100px) {
+  .grid-sales-four-column {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  #main-section .grid {
+    gap: 1rem;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+    margin-bottom: 0.4rem;
+  }
+
+  #main-para {
+    font-size: 1rem;
+  }
+
+  #main-heading {
+    font-size: 1rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .main-image img {
+    width: 22rem;
+  }
+
+  .main .button {
+    margin: 0.4rem 0;
+  }
+
+  .main .button .btns {
+    padding: 0.6rem;
+    font-size: 1rem;
+    width: max-content;
+  }
+}
+
+@media screen and (max-width:980px) {
+  #main-section {
+    padding: 8rem 0 2rem 0;
+    margin: 0 5rem 0 5rem;
+  }
+}
+
+@media screen and (max-width:750px) {
+
+  #main-section {
+    margin: 0 6rem;
+  }
+
+  .grid-two-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .main-image img {
+    display: none;
+  }
+
+  .main .button {
+    width: 100%;
+    display: grid;
+    place-items: center;
+  }
+
+  .container-sales span {
+    font-size: 1rem;
+  }
+
+  .common-heading {
+    margin: 0;
+  }
+
+  .common-heading::after {
+    width: 4rem;
+    height: 0.1rem;
+    left: 0.5rem;
+    top: 110%;
+  }
+
+  .common-heading::before {
+    top: 100%;
+    width: 0.5rem;
+    height: 0.5rem;
+  }
+
+  .productImage img {
+    height: 3rem;
+  }
+
+  .figCaptionDiv,
+  .rating,
+  .productDetails,
+  .productPrice,
+  .amountDiv,
+  .productPrice .ratings,
+  .ratings span {
+    font-size: 0.8rem;
+  }
+
+  .productBox {
+    height: 12rem;
+  }
+
+  .sales-image .btn {
+    font-size: 0.6rem;
+    padding: 0.5rem 0.6rem;
+  }
+}
+
+@media screen and (max-width:650px) {
+  .grid-sales-four-column {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width:520px) {
+  #main-section {
+    margin: 0 2rem;
+  }
+
+  .grid-sales-two-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .sales-image img {
+    display: none;
+  }
+
+  .sales-image{
+    border: none;
+  }
+
+  .container-sales {
+    padding: 0.6rem 0.4rem;
+  }
+
+  .figCaptionDiv,
+  .rating,
+  .productDetails,
+  .productPrice,
+  .amountDiv,
+  .productPrice .ratings,
+  .ratings span {
+    font-size: 0.6rem;
+  }
+
+  .figCaptionDiv {
+    min-height: 2rem;
+  }
+
+  .btnD{
+    padding: 0.3rem;
+    font-size: 0.5rem;
+  }
+
+  .price-box{
+    padding: 0.1rem;
+  }
+  
 }

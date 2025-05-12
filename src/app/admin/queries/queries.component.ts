@@ -44,9 +44,6 @@ export class QueriesComponent implements OnInit {
 
   updateQueryStatus(status:any){
     if(!this.updateQueries.pristine && this.updateQueries.valid){
-      let updatedData = {
-
-      }
       this.http.patch(`http://localhost:3000/Queries/${status.id}`, status).subscribe((response:any)=>{
         if(response){
           alert("Updated Successfully");

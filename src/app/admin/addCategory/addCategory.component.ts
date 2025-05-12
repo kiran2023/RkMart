@@ -24,7 +24,7 @@ export class AddCategoryComponent implements OnInit {
 
   queryParamData: boolean = false;
 
-  constructor(private formBuilder: FormBuilder, private adminService: AdminProductsService, private http: HttpClient, private route: ActivatedRoute, private router: Router, private title:Title) {
+  constructor(private formBuilder: FormBuilder, private adminService: AdminProductsService, private http: HttpClient, private route: ActivatedRoute, private router: Router, private title: Title) {
     this.categoryData = this.formBuilder.group({
       categoryType: [, Validators.required],
       category: [, Validators.required],
@@ -37,10 +37,10 @@ export class AddCategoryComponent implements OnInit {
       this.route.queryParams.subscribe((params) => {
         this.categoryId = this.route.snapshot.paramMap.get('id');
         this.categoryData.controls['categoryType'].setValue(params['categoryType']),
-        this.categoryData.controls['category'].setValue(params['category']),
-        this.categoryData.controls['categoryClass'].setValue(params['categoryClass']),
-        this.categoryData.controls['categoryUniqueValue'].setValue(params['categoryUnique']),
-        this.categoryData.markAsPristine();
+          this.categoryData.controls['category'].setValue(params['category']),
+          this.categoryData.controls['categoryClass'].setValue(params['categoryClass']),
+          this.categoryData.controls['categoryUniqueValue'].setValue(params['categoryUnique']),
+          this.categoryData.markAsPristine();
       });
       this.categoryType = this.categoryData.controls['categoryType'].value;
       this.categoryValueData = this.categoryData.controls['category'].value;
@@ -48,8 +48,8 @@ export class AddCategoryComponent implements OnInit {
       this.categoryUniqueId = this.categoryData.controls['categoryUniqueValue'].value;
 
       this.title.setTitle(`${this.categoryValueData} | RK MART`);
-    }else{
-      this.title.setTitle(`Category | RK MART`);
+    } else {
+      this.title.setTitle(`Add Category | RK MART`);
     }
   }
 
@@ -76,7 +76,7 @@ export class AddCategoryComponent implements OnInit {
           categoryClass: formData.categoryClass.split(','),
           categoryUniqueValue: formData.categoryUniqueValue.split(',')
         }
-        categoryExist? this.dataUpdating(categoryExist, categoryValues, existingCategoryId):this.dataUpdating(categoryExist, categoryValues, existingCategoryId); 
+        categoryExist ? this.dataUpdating(categoryExist, categoryValues, existingCategoryId) : this.dataUpdating(categoryExist, categoryValues, existingCategoryId);
       });
     }
   }
@@ -84,7 +84,7 @@ export class AddCategoryComponent implements OnInit {
   updateCategory(updatedData: any) {
     if (!this.categoryData.pristine) {
       this.http.get(`http://localhost:3000/category/${this.categoryId}`).subscribe((categoryData: any) => {
-        const categoryTypeData = updatedData.categoryType;
+        let categoryTypeData = updatedData.categoryType;
 
         const existingCategory = [...categoryData.category];
         existingCategory[existingCategory.indexOf(this.categoryValueData)] = updatedData.category;
@@ -106,17 +106,40 @@ export class AddCategoryComponent implements OnInit {
         this.http.get<any>('http://localhost:3000/category').subscribe((data) => {
           let exist: boolean = false;
           let existId: any;
-          data.find((data: any) => {
-            if (data.categoryType == updatedDataValue.categoryType && this.categoryType != updatedData.categoryType) {
-              existId = data.id
+          let dataFound: any = false;
+          data.forEach((data: any) => {
+            let categoryDataValue = data.category;
+            if ((data.categoryType == updatedDataValue.categoryType
+              && categoryDataValue.includes(updatedData.category) && dataFound == false)) {
+              existId = data.id;
+              dataFound = true;
               exist = true;
+            } else if ((data.categoryType == updatedDataValue.categoryType) && dataFound == false) {
+              existId = data.id;
+              dataFound = true;
+              exist = true;
+            } else if ((data.categoryType != updatedDataValue.categoryType
+              && categoryDataValue.includes(updatedData.category)) && dataFound == false) {
+              dataFound = true;
+              exist = false;
             }
           });
           if (exist == false) {
-            this.adminService.updateCategoryData(this.categoryId, updatedDataValue).subscribe((response) => {
-              alert("Updated Successfully");
-            })
+
+            this.adminService.updateCategoryData(this.categoryId, updatedDataValue).subscribe((response: any) => {
+
+              this.adminService.getProducts().subscribe((products: any) => {
+                products.forEach((product: any) => {
+                  if (product.category == categoryData.categoryType) {
+                    let category = response.categoryType;
+                    this.http.patch(`http://localhost:3000/Productdata/${product.id}`, { category }).subscribe();
+                  }
+                });
+                alert("Updated Successfully");
+              });
+            });
           } else {
+
             this.http.get<any>(`http://localhost:3000/category/${existId}`).subscribe((data: any) => {
               let categoryValues = {
                 categoryType: updatedData.categoryType,
@@ -135,7 +158,9 @@ export class AddCategoryComponent implements OnInit {
   }
 
   dataUpdating(categoryExist: boolean, categoryData: any, existingCategoryId: number | string | undefined) {
+
     if (categoryExist == false) {
+
       var categoryTypeDataValue: any = { categoryTypeData: categoryData.categoryType }
 
       this.adminService.addCategory(categoryData).subscribe((response) => {
@@ -147,6 +172,7 @@ export class AddCategoryComponent implements OnInit {
       });
     }
     if (categoryExist) {
+
       let categoryDataExist: boolean = false;
       this.http.get(`http://localhost:3000/category/${existingCategoryId}`).subscribe((data: any) => {
 
@@ -156,13 +182,13 @@ export class AddCategoryComponent implements OnInit {
             this.categoryStatusMessage = "Category Already Exist";
             setTimeout(() => this.categoryStatusMessage = undefined, 3000);
           }
-        })
+        });
 
         if (categoryDataExist == false) {
           this.adminService.addCategoryTest(existingCategoryId, "category", "categoryClass", "categoryUniqueValue", categoryData.category, categoryData.categoryClass, categoryData.categoryUniqueValue).subscribe((response) => {
             if (response) {
-              if(this.queryParamData){
-                this.adminService.removeCategoryData(this.categoryId, this.categoryValueData, this.categoryClass, this.categoryUniqueId, true,this.categoryType);
+              if (this.queryParamData) {
+                this.adminService.removeCategoryData(this.categoryId, this.categoryValueData, this.categoryClass, this.categoryUniqueId, true, this.categoryType);
               }
               this.categoryStatusMessage = "Category Updated Successfully";
             }

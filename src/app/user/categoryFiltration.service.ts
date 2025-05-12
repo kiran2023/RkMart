@@ -9,9 +9,6 @@ export class CategoryFiltrationService {
   selectedDiscountSubject = new BehaviorSubject<any>([]);
   selectedReviewSubject = new BehaviorSubject<any>([]);
 
-  // selectedCategories = this.selectedCategoriesSubject.asObservable();
-  // selectedDiscounts = this.selectedDiscountSubject.asObservable();
-
   constructor() { }
 
   addSelectedCategory(categoryId: number) {
@@ -45,8 +42,8 @@ export class CategoryFiltrationService {
   }
 
   addReviewCategory(Value: number) {
-    const selectReviews = this.selectedReviewSubject.getValue();
-    selectReviews.push(Value);
+    const selectReviews = this.selectedReviewSubject.getValue();    
+    selectReviews.push(Value);    
     this.selectedReviewSubject.next(selectReviews);
   }
 

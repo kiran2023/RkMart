@@ -57,3 +57,20 @@
 .userTable tbody tr:last-of-type {
     border-bottom: 0.3rem solid var(--btns-background);
 }
+
+#paymentBox{
+    height: 100%;
+    width: 100%;
+    display: grid;
+    place-items: center;
+    margin-top: 2rem;
+}
+
+#markData {
+    padding: 0.4rem;
+    background-color: var(--btns-background);
+    color: #ffff;
+    font-weight: 900;
+    display: flex;
+    justify-content: center;
+}

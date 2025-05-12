@@ -75,12 +75,36 @@ export class CartService {
   }
 
   getUsersCartList(userid:any){
-    return this.http.get(`${this.usersCartUrl}${userid}`,{observe:'response'}).subscribe((res)=>{
-      if(res && res.body){
-        this.cartProducts = res.body;
-        this.productList.next(this.cartProducts);
-      }
-    });
+    let offerStatus = sessionStorage.getItem("offerApply");
+    let data:any;
+    if(offerStatus=='true'){
+      
+      data = this.http.get(`${this.usersCartUrl}${userid}`,{observe:'response'}).subscribe((res)=>{
+        if(res && res.body){
+          this.cartProducts = res.body;
+          
+          this.cartProducts.forEach((cartProduct:any) => {
+            cartProduct.originalAmount = cartProduct.actualAmount;
+          });
+  
+          this.productList.next(this.cartProducts);
+        }
+      });
+    }else{
+      data = this.http.get(`${this.usersCartUrl}${userid}`,{observe:'response'}).subscribe((res)=>{
+        if(res && res.body){
+          this.cartProducts = res.body;
+          
+          this.cartProducts.forEach((cartProduct:any) => {
+            cartProduct.originalAmount = cartProduct.discountedPrice;
+          });
+  
+          this.productList.next(this.cartProducts);
+        }
+      });
+    } 
+
+    return data;
   }
 
   removeProduct(product: cart,userid:any) {
@@ -111,7 +135,5 @@ export class CartService {
 
   ordersData(userid:any){
     return this.http.get<order[]>(`${this.ordersDataUrl}${userid}`)
-  }
-
-  
+  } 
 }

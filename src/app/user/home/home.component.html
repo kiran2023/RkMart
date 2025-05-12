@@ -11,7 +11,7 @@
           <h1>RK <span> MART </span></h1>
           <p id="main-para">RK Mart is an online shopping site where it caters every need of your
             family. A self-service shop offering a wide range of variety of products in various
-            categories such as Vegetables and household, fruits, Beverages.
+            categories such as vegetables, fruits, household and beverages.
           </p>
           <div class="button">
             <button id="btn" class="btns"> <a routerLink="/products"><i class="fa-solid fa-cart-shopping"></i> Shop Now
@@ -38,31 +38,39 @@
       <div class="sales-products grid-sales grid-sales-four-column">
         <div *ngFor="let product of householdProduct; let i = index">
           <ng-container>
-            <a *ngIf="i<=3" routerLink="/products/productDescription/{{product.id}}">
+            <a *ngIf="(screenWidth > 1100 && i<=3) || (screenWidth <= 1100 && i<=2) && (screenWidth > 650) || (screenWidth <= 650 && i<=1)" routerLink="/products/productDescription/{{product.id}}">
               <div class="productBox groceryProducts grocery {{product.classData}}" attr.id="{{product.id}}"
                 attr.filtervalue="{{product.filterValue}}" attr.uniqueid="{{product.uniqueId}}"
-                attr.value="{{product.value}}" attr.reviewrating="{{product.ratingCount}}">
+                attr.value="{{product.value}}" attr.reviewrating="{{product.rating.length}}">
                 <div class="productImage">
                   <figure><a>
                       <div class="imagePosition"><img [src]="product.image" alt={{product.alt}} title={{product.title}}>
                       </div>
                     </a>
                     <figcaption class="figCaptionDiv"><b class="findProduct">{{product.productName}}</b></figcaption>
-                    <!-- <div class="addWishlistDiv"><button class="btnD addRemove" title="Add to Category">Add</button> -->
-                    <!-- </div> -->
-                    <!-- <p title="Add to Wishlist"><i class="fa-regular fa-heart"></i></p> -->
                   </figure>
                 </div>
                 <div class="productDetails"><small>{{product.quantity}}</small></div>
                 <div class="productPrice">
-                  <div class="ratings"><span class="rating">{{product.rating}}<i
-                        class="fa-solid fa-star fa-xs"></i></span><span>({{product.reviewCount}})</span>
+                  <div class="ratings"><span class="rating"
+                    [attr.title]=" product.ratingAverage + ' Average Rated' ">{{product.ratingAverage}}<i
+                      class="fa-solid fa-star fa-xs"></i></span><span
+                    [attr.title]=" product.rating.length + ' Verified Reviews' ">({{product.rating.length}})</span>
+                </div>
+                  <div class="amountDiv">
+                    <p *ngIf="offerApply=='true'" class="discount price-box">{{product.originalAmount|currency:'INR': 'symbol' :
+                      '1.0-0'}}<s class="price-box">{{product.discounted|currency:'INR': 'symbol' : '1.0-0'}}</s><button
+                        class="btnD offerBtn"><small
+                          class="price-box">{{myMath.abs(((product.originalAmount-product.discounted)/product.discounted)*100)|number:'.0-0'}}
+                          OFF</small></button>
+                    </p>
                   </div>
-                  <p class="discount price-box">{{product.originalAmount|currency:'INR': 'symbol' : '1.0-0'}}<s
-                      class="price-box">{{product.discounted|currency:'INR': 'symbol' : '1.0-0'}}</s><button
-                      class="btnD offerBtn"><small
-                        class="price-box">{{myMath.abs(((product.originalAmount-product.discounted)/product.discounted)*100)|number:'.0-0'}}
-                        OFF</small></button></p>
+                  <div class="amountDiv" *ngIf="offerApply=='false'">
+                    <p class="discount price-box"><b> Price :
+                        {{product.discounted|currency:'INR':
+                        'symbol' : '1.0-0'}} </b>
+                    </p>
+                  </div>
                 </div>
               </div>
             </a>
@@ -85,10 +93,10 @@
       <div class="sales-products grid-sales grid-sales-four-column">
         <div *ngFor="let product of beveragesProduct; let i = index">
           <ng-container>
-            <a *ngIf="i<=3" routerLink="/products/productDescription/{{product.id}}">
+            <a *ngIf="(screenWidth > 1100 && i<=3) || (screenWidth <= 1100 && i<=2) && (screenWidth > 650) || (screenWidth <= 650 && i<=1)" routerLink="/products/productDescription/{{product.id}}">
               <div class="productBox groceryProducts grocery {{product.classData}}" attr.id="{{product.id}}"
                 attr.filtervalue="{{product.filterValue}}" attr.uniqueid="{{product.uniqueId}}"
-                attr.value="{{product.value}}" attr.reviewrating="{{product.ratingCount}}">
+                attr.value="{{product.value}}" attr.reviewrating="{{product.rating.length}}">
                 <div class="productImage">
                   <figure><a>
                       <div class="imagePosition"><img [src]="product.image" alt={{product.alt}} title={{product.title}}>
@@ -99,14 +107,25 @@
                 </div>
                 <div class="productDetails"><small>{{product.quantity}}</small></div>
                 <div class="productPrice">
-                  <div class="ratings"><span class="rating">{{product.rating}}<i
-                        class="fa-solid fa-star fa-xs"></i></span><span>({{product.reviewCount}})</span>
+                  <div class="ratings"><span class="rating"
+                    [attr.title]=" product.ratingAverage + ' Average Rated' ">{{product.ratingAverage}}<i
+                      class="fa-solid fa-star fa-xs"></i></span><span
+                    [attr.title]=" product.rating.length + ' Verified Reviews' ">({{product.rating.length}})</span>
+                </div>
+                  <div>
+                    <p *ngIf="offerApply=='true'" class="discount price-box">{{product.originalAmount|currency:'INR': 'symbol' :
+                      '1.0-0'}}<s class="price-box">{{product.discounted|currency:'INR': 'symbol' : '1.0-0'}}</s><button
+                        class="btnD offerBtn"><small
+                          class="price-box">{{myMath.abs(((product.originalAmount-product.discounted)/product.discounted)*100)|number:'.0-0'}}
+                          OFF</small></button>
+                    </p>
                   </div>
-                  <p class="discount price-box">{{product.originalAmount|currency:'INR': 'symbol' : '1.0-0'}}<s
-                      class="price-box">{{product.discounted|currency:'INR': 'symbol' : '1.0-0'}}</s><button
-                      class="btnD offerBtn"><small
-                        class="price-box">{{myMath.abs(((product.originalAmount-product.discounted)/product.discounted)*100)|number:'.0-0'}}
-                        OFF</small></button></p>
+                  <div *ngIf="offerApply=='false'">
+                    <p class="discount price-box"><b> Price :
+                        {{product.discounted|currency:'INR':
+                        'symbol' : '1.0-0'}} </b>
+                    </p>
+                  </div>
                 </div>
               </div>
             </a>
@@ -129,10 +148,10 @@
       <div class="sales-products grid-sales grid-sales-four-column">
         <div *ngFor="let product of groceryProduct; let i = index">
           <ng-container>
-            <a *ngIf="i<=3" routerLink="/products/productDescription/{{product.id}}">
+            <a *ngIf="(screenWidth > 1100 && i<=3) || (screenWidth <= 1100 && i<=2) && (screenWidth > 650) || (screenWidth <= 650 && i<=1)" routerLink="/products/productDescription/{{product.id}}">
               <div class="productBox groceryProducts grocery {{product.classData}}" attr.id="{{product.id}}"
                 attr.filtervalue="{{product.filterValue}}" attr.uniqueid="{{product.uniqueId}}"
-                attr.value="{{product.value}}" attr.reviewrating="{{product.ratingCount}}">
+                attr.value="{{product.value}}" attr.reviewrating="{{product.rating.length}}">
                 <div class="productImage">
                   <figure><a>
                       <div class="imagePosition"><img [src]="product.image" alt={{product.alt}} title={{product.title}}>
@@ -143,14 +162,25 @@
                 </div>
                 <div class="productDetails"><small>{{product.quantity}}</small></div>
                 <div class="productPrice">
-                  <div class="ratings"><span class="rating">{{product.rating}}<i
-                        class="fa-solid fa-star fa-xs"></i></span><span>({{product.reviewCount}})</span>
+                  <div class="ratings"><span class="rating"
+                    [attr.title]=" product.ratingAverage + ' Average Rated' ">{{product.ratingAverage}}<i
+                      class="fa-solid fa-star fa-xs"></i></span><span
+                    [attr.title]=" product.rating.length + ' Verified Reviews' ">({{product.rating.length}})</span>
+                </div>
+                  <div>
+                    <p *ngIf="offerApply=='true'" class="discount price-box">{{product.originalAmount|currency:'INR': 'symbol' :
+                      '1.0-0'}}<s class="price-box">{{product.discounted|currency:'INR': 'symbol' : '1.0-0'}}</s><button
+                        class="btnD offerBtn"><small
+                          class="price-box">{{myMath.abs(((product.originalAmount-product.discounted)/product.discounted)*100)|number:'.0-0'}}
+                          OFF</small></button>
+                    </p>
                   </div>
-                  <p class="discount price-box">{{product.originalAmount|currency:'INR': 'symbol' : '1.0-0'}}<s
-                      class="price-box">{{product.discounted|currency:'INR': 'symbol' : '1.0-0'}}</s><button
-                      class="btnD offerBtn"><small
-                        class="price-box">{{myMath.abs(((product.originalAmount-product.discounted)/product.discounted)*100)|number:'.0-0'}}
-                        OFF</small></button></p>
+                  <div *ngIf="offerApply=='false'">
+                    <p class="discount price-box"><b> Price :
+                        {{product.discounted|currency:'INR':
+                        'symbol' : '1.0-0'}} </b>
+                    </p>
+                  </div>
                 </div>
               </div>
             </a>
@@ -162,17 +192,19 @@
 </section>
 
 <hr>
+
 <!-- Popup Message -->
 
 <dialog class="popupMsg">
-  <i class="fa-solid fa-xmark fa-1x popupClose" (click)="closeOffer()"></i>
+  <i class="fa-solid fa-xmark fa-1x popupClose" title="Close" (click)="closeOffer()"></i>
   <div class="offerPopUp">
     <div class="offerImage">
-      <img src="../assets/images/Sales/Sale.jpg" alt="50% Discount" title="50% Off">
+      <img src="../assets/images/Sales/Sale.jpg" alt="10% to 60% Discount" title="10% to 60% Discount">
     </div>
     <div class="offerContent">
       <div class="offerData">
         <p> Mega Sale <span id="offerPercentage">10% to 60% Limited Time Offer </span> </p>
+        <span> <app-offerTimer></app-offerTimer> </span>
       </div>
       <button class="btn"> <a routerLink="/products"> Grab Now </a> </button>
     </div>

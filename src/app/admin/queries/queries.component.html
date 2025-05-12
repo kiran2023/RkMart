@@ -46,11 +46,11 @@
         <form [formGroup]="updateQueries">
           <div class="grid-products">
             <div class="form-fields">
-              <label for="uid"> Order ID </label>
+              <label for="uid"> User ID </label>
               <input type="text" name="uid" formControlName="uid">
             </div>
             <div class="form-fields">
-              <label for="queryStatus"> Order Status </label>
+              <label for="queryStatus"> Query Status </label>
               <select   name="queryStatus" formControlName="queryStatus">
                 <option *ngFor="let query of queryStatus" [ngValue]="query">
                   {{query}}

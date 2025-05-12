@@ -5,6 +5,8 @@
     --black: #000000;
     --font-hover: rgb(244, 240, 240);
     --background-hover: rgba(19, 110, 29, 0.697);
+    --invalid: rgb(255, 0, 0);
+    --valid: rgb(0, 128, 0);
 }
 
 section {
@@ -26,10 +28,12 @@ section h2{
 
 .valid{
     color: green;
+    border: none;
 }
 
 .invalid{
     color: red;
+    border: none;
 }
 
 .common-heading {
@@ -129,6 +133,5 @@ section h2{
     display: flex;
     justify-content: center;
     place-items: center;
-    color: rgb(0, 128, 0);
     font-weight: 900;
 }

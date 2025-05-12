@@ -19,16 +19,32 @@ export class CartComponent implements OnInit, AfterViewChecked {
 
   productQuantityData = 1;
 
+  offerApply:any;
+
   constructor(private cartService: CartService, private route: Router, private urlGuard:UrlGuard ,private http: HttpClient, private guard: AuthUserGuard, private title: Title) { 
     this.urlGuard.navigatePermission = false;
   }
 
   ngOnInit() {
-    this.cartService.getProducts().subscribe((productData: any) => {
-      this.product = productData;
+    this.offerApply = sessionStorage.getItem('offerApply');
 
-      this.subtotal = this.cartService.getProductTotalAmount();
-    });
+    if(this.offerApply=='true'){
+      this.cartService.getProducts().subscribe((productData: any) => {
+        this.product = productData;
+  
+        this.subtotal = this.cartService.getProductTotalAmount();
+        
+      });
+    }
+
+    if(this.offerApply=='false'){
+      this.cartService.getProducts().subscribe((productData: any) => {
+        this.product = productData;
+  
+        this.subtotal = this.cartService.getProductTotalAmount();
+        
+      });
+    }
     this.title.setTitle('Cart | RK MART');
   }
 

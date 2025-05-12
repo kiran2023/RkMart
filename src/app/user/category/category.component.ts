@@ -14,8 +14,13 @@ export class CategoryComponent implements OnInit {
 
   categoryTypes: any = [];
   categoryDisplay: any = "";
+  
+  offerApply:any;
 
-  constructor(private route: ActivatedRoute, private productService: ProductsDataService, private filterService: CategoryFiltrationService) { }
+  constructor(private route: ActivatedRoute, private productService: ProductsDataService, private filterService: CategoryFiltrationService) {
+    // this.categoryTypesData();
+    this.offerApply = sessionStorage.getItem('offerApply');
+  }
 
   ngOnInit() {
     if (this.route.snapshot.paramMap.get('category')) {
@@ -24,23 +29,33 @@ export class CategoryComponent implements OnInit {
     }
 
     this.productService.getCategory().subscribe((data) => {
-      this.categoryDisplay = data;
+      this.categoryDisplay = data;      
+
+      this.categoryDisplay.forEach((categoryType:any)=>{
+        this.categoryTypes.push(categoryType.categoryType);
+      })
     });
 
-    this.productService.getCategoryTypes().subscribe((categoryType: any) => {
-      categoryType.forEach((data: any) => {
-        this.categoryTypes.push(data.categoryTypeData);
-      })
-    })
+    // this.categoryTypesData();
   }
+
+  // categoryTypesData() {
+  //   this.productService.getCategoryTypes().subscribe((categoryType: any) => {
+  //     categoryType.forEach((data: any) => {
+  //       this.categoryTypes.push(data.categoryTypeData);
+  //     })
+  //   })
+  // }
 
   categorySelected(checkedData: any, id: any) {
     const checkedStatus = (checkedData.target as HTMLInputElement)?.checked
     if (checkedStatus) {
       this.filterService.addSelectedCategory(id);
+      checkedData.target.checked = true;
     }
     else {
       this.filterService.removeSelectedCategory(id);
+      checkedData.target.checked = false;
     }
   }
 
@@ -54,14 +69,20 @@ export class CategoryComponent implements OnInit {
     }
   }
 
-  reviewData(reviewRating:any){
-    const rating = reviewRating.target.value;
-    
+  reviewData(reviewRating: any) {
+    const rating = reviewRating.target.value;    
+
     const checkedStatus = (reviewRating.target as HTMLInputElement)?.checked;
-    if(checkedStatus){      
+    if (checkedStatus) {
       this.filterService.addReviewCategory(rating);
-    }else{
+    } else {
       this.filterService.removeReviewCategory(rating);
     }
+  }
+
+  toggleCategory(){
+    let menu = document.querySelector('.bevergeSection');
+
+    menu?.classList.toggle('menuActive');
   }
 }

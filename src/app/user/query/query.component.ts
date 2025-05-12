@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-query',
@@ -9,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
 export class QueryComponent implements OnInit {
   queryAddressedData: any;
   query: boolean = false;
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private title:Title) {
     let userId = sessionStorage.getItem('userId');
 
     this.http.get(`http://localhost:3000/Queries?uid=${userId}`).subscribe((data) => {
@@ -24,6 +25,7 @@ export class QueryComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.title.setTitle('My Queries | RK MART');
   }
 
 }

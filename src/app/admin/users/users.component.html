@@ -4,7 +4,7 @@
 
     <div class="container">
         <section>
-            <div id="usersDatas">
+            <div id="usersDatas" *ngIf="registeredUsers.length!=0" >
                 <h2 class="common-heading">Users Data</h2>
 
 
@@ -38,10 +38,13 @@
                                 <td><i (click)="removerUser(registerUser.id)" class="fa-solid fa-trash"></i> </td>
                             </tr>
                         </ng-container>
-                        
+
                     </tbody>
                 </table>
 
+            </div>
+            <div id="registeredUsersBox" *ngIf="registeredUsers.length==0">
+                <p> <mark id="markData"> No Users Yet Registered </mark> </p>
             </div>
         </section>
     </div>
